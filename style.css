@@ -1,0 +1,69 @@
+body{
+    background-image: url("bgp.webp");
+    
+}
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+h2{
+    color: black;
+    text-align: center;
+    margin-left: 1000px;
+}
+form{
+    padding: 3%;
+    padding-right: 20%;
+    padding-left: 10%;
+    
+    background-color: #FCF8E8;
+    border: 3px solid black;
+    border-radius: 5%;
+}
+.title_l{
+    margin-left: 50px;
+    width: 125%;
+}
+#form-row{
+    width: 125%;
+    margin: 15% auto;
+}
+.br{
+    padding-left: 50%;
+}
+.container-fluid{
+    padding-top: 5%;
+    margin-bottom: 5%;
+}
+.jumbotron{
+    
+    text-align: center;
+    background-color: #80fed9;
+    padding-bottom: 5px;
+    margin-right: 0;
+}
+.lock:hover,.fa-truck-fast:hover,.fa-shield-halved:hover,.fa-gem:hover{
+    color:rgb(23, 157, 23);
+}
+.lead{
+    margin-top: 3%;
+}
+.ft{
+    background-color: #80fed9;
+    text-align: center;
+    font-size: 1.8rem;
+    line-height: 1.6 rem;
+    padding: 5%;
+    padding-bottom: 2.5%;
+}
+p{
+    margin: 7.5%;
+}
+.nav{
+    background-color: #FCF8E8;
+    margin-right: 0 ;
+}
+.git{
+  color: black;
+}
