@@ -1,0 +1,24 @@
+{
+  "name": "itw_proj_test",
+  "version": "1.0.0",
+  "description": "- A repo contaning my website for itw project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sabretooth1405/Itw_proj_site.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sabretooth1405/Itw_proj_site/issues"
+  },
+  "homepage": "https://github.com/Sabretooth1405/Itw_proj_site#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.2"
+  }
+}
