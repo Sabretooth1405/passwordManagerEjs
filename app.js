@@ -14,6 +14,11 @@ async function main() {
 }
 let username = "";
 let passwd = "";
+const passwdSchema=new mongoose.Schema({
+    website:String,
+    username:String,
+    password:String
+});
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -23,9 +28,12 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    info:[passwdSchema]
 });
+
 const User = mongoose.model('User', userSchema);
+const Password=mongoose.model('Password',passwdSchema);
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
@@ -88,6 +96,27 @@ app.get('/:customUrlName',function(req,res){
  //console.log(user);
     console.log(req.params.customUrlName);
  res.render('user',{UserName:user});
+});
+app.post('/:customUrlName',function(req,res){
+    const user=req.params.customUrlName;
+    const website=req.body.website;
+    const newUsername=req.body.username;
+    const newPasswd=req.body.passwd;
+    const addPasswd=new Password({
+        website:website,
+        username:newUsername,
+        password:newPasswd
+
+    });
+    User.findOneAndUpdate({username:user},{$push:{info:addPasswd}},function(err,docs){
+        if(err)
+        {
+            console.log(err);
+        }
+        else{
+            console.log("entry added successfully");
+        }
+    });
 });
 app.listen(3000, function () {
     console.log('Serving on port 3000...');

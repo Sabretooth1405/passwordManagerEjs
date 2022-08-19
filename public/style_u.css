@@ -23,3 +23,33 @@ body {
 .lock:hover{
 color: rgb(23, 157, 23);
 }
+h2 {
+    color: black;
+    text-align: center;
+    margin-left: 1000px;
+}
+
+form {
+    padding: 3%;
+    padding-right: 20%;
+    padding-left: 10%;
+
+    background-color: #FCF8E8;
+    border: 3px solid black;
+    border-radius: 5%;
+}
+
+.title_l {
+    margin-left: 50px;
+    width: 125%;
+}
+
+#form-row {
+    width: 125%;
+    margin: 15% auto;
+}
+
+.br {
+    padding-left: 50%;
+}
+
