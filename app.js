@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
 main().catch(err => console.log(err));
 
 async function main() {
@@ -77,10 +78,16 @@ app.post('/',function(req,res){
             res.redirect('/');
         }
         else{
-            res.send(`Welcome ${entUsername}`);
-            mongoose.connection.close()
+            res.redirect(`/${entUsername}`);
+            
         }
     });
+});
+app.get('/:customUrlName',function(req,res){
+ const user=req.params.customUrlName;
+ //console.log(user);
+    console.log(req.params.customUrlName);
+ res.render('user',{UserName:user});
 });
 app.listen(3000, function () {
     console.log('Serving on port 3000...');

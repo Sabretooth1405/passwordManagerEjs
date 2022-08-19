@@ -1,0 +1,25 @@
+body {
+    background-image: url("bgp.webp");
+
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.container-fluid {
+    padding-top: 5%;
+    margin-bottom: 5%;
+}
+
+.jumbotron {
+
+    text-align: center;
+    background-color: #80fed9;
+    padding-bottom: 5px;
+    margin-right: 0;
+}
+.lock:hover{
+color: rgb(23, 157, 23);
+}
