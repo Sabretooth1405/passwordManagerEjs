@@ -26,43 +26,30 @@
     <div class="container-fluid ">
 
         <div class="row justify-content-center ">
-            <form action="/update/<%=UserName%>" method="post">
-                <div class="form-group row title_l" id="update">
-                    <h2 class="justify-content-center mx-auto">Update Website or App password</h2>
-                </div>
-                <div class="form-group row" id="form-row">
-                    <label for="inputEmail3" class="col-sm-4 col-form-label">Website/app</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inputEmail3" name="website"
-                            placeholder="Website/App">
-                    </div>
+            <form action="/display/<%=UserName%>" method="post">
+                <div class="form-group row col-md-6 title_l">
+                    <h2 class="justify-content-center mx-auto">Select </h2>
                 </div>
                 
-                <div class="form-group row" id="form-row">
-                    <label for="inputPassword3" class="col-sm-4 col-form-label">New Password</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="inputPassword3" name="passwd"
-                            placeholder="Password">
-                    </div>
+            <div class="col-md-6 box">
+            <select class="form-select" name="disp">
+                <%list.forEach((elm)=>{%>
+                    <option value="<%=elm.website%>">
+                        <%=elm.website%>
+                    </option>
+                    <%})%>
                 </div>
-                <div class="form-group row" id="form-row">
-                    <label for="inputPassword3" class="col-sm-4 col-form-label">Reenter New Password</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="inputPassword3" name="rPasswd" placeholder="Password">
-                    </div>
-                </div>
-                <div class="form-group row br" id="form-row">
-                    <div class="col-sm-10">
-                        <button type="submit" id="bn" class="btn btn-primary btn-lg btn-block">Add</button>
-                    </div>
-                </div>
-                <small i class="form-text text-muted">
-                    <%-smallText2%>
-                </small>
-        </div>
+            </select>
+            </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Display</button>
+                <p id="paas">
+                    <%-password%>
+                </p>
         </form>
+    
     </div>
-    </div>
+</div>
+    <footer>
     <ul class="nav justify-content-center">
         <li class="nav-item">
             <a class="nav-link active git" href="#"><i class="fa-brands fa-github fa-2x"></i></a>
@@ -80,7 +67,7 @@
         <li class="nav-item"><i class="fa-solid fa-copyright"></i>2022 All Rights Reserved</li>
     </ul>
 
-
+    </footer>
 
 
 
@@ -109,3 +96,24 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

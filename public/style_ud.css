@@ -40,7 +40,7 @@ form {
 }
 
 .title_l {
-    margin-left: 50px;
+    margin: 25% 55%;
     width: 125%;
 }
 
@@ -76,4 +76,27 @@ p {
 }
 small{
     color: red;
+}
+footer{
+    margin-top: 225px !important;
+    margin-bottom: 0 !important;
+}
+button{
+    margin: 2.5% 55%;
+}
+select{
+    margin: 2.5% auto;
+}
+.box {
+    margin-left: 70%;
+    margin-bottom: 20%;
+}
+#update{
+    margin: 2.5% auto;
+}
+#bn{
+    margin: 2.5% auto;
+}
+#pass{
+    margin:2.5% 55%
 }

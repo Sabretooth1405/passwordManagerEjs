@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const e = require('express');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
@@ -14,13 +15,14 @@ async function main() {
 }
 let username = "";
 let passwd = "";
-let smallText="";
+let smallText = "";
 let smallText2 = "";
-const passwdSchema=new mongoose.Schema({
-    website:String,
-    username:String,
-    password:String
+const passwdSchema = new mongoose.Schema({
+    website: String,
+    username: String,
+    password: String
 });
+let pass = "";
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -31,11 +33,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    info:[passwdSchema]
+    info: [passwdSchema]
 });
 
 const User = mongoose.model('User', userSchema);
-const Password=mongoose.model('Password',passwdSchema);
+const Password = mongoose.model('Password', passwdSchema);
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
@@ -76,112 +78,182 @@ app.post('/signup.html', function (req, res) {
     }
 
 });
-app.post('/',function(req,res){
-    let entUsername=req.body.username;
-    let entPasswd=req.body.passwd;
-    User.find({username:entUsername,password:entPasswd},function(err,doc){
-        if(err)
-        {
+app.post('/', function (req, res) {
+    let entUsername = req.body.username;
+    let entPasswd = req.body.passwd;
+    User.find({ username: entUsername, password: entPasswd }, function (err, doc) {
+        if (err) {
             console.log(err);
             res.redirect('/');
         }
-        else if(doc.length===0){
+        else if (doc.length === 0) {
             console.log("invalid username or password");
             res.redirect('/');
         }
-        else{
+        else {
             res.redirect(`/${entUsername}`);
-            
+
         }
     });
 });
-app.get('/:customUrlName',function(req,res){
- const user=req.params.customUrlName;
- //console.log(user);
+app.get('/:customUrlName', function (req, res) {
+    const user = req.params.customUrlName;
+    //console.log(user);
     console.log(req.params.customUrlName);
- res.render('user',{UserName:user,smallText:smallText});
- smallText="";
+    res.render('user', { UserName: user, smallText: smallText });
+    smallText = "";
 });
-app.get('/update/:user',function(req,res){
-    const user=req.params.user;
-   res.render('update',{UserName:user,smallText2:smallText2});
+app.get('/update/:user', function (req, res) {
+    const user = req.params.user;
+    res.render('update', { UserName: user, smallText2: smallText2 });
 });
 app.post('/update/:user', function (req, res) {
     const user = req.params.user;
-    const website=req.body.website;
-    const password=req.body.passwd;
-    const rPasswd=req.body.rPasswd;
-    if(password===rPasswd)
-    {  console.log(password);
-        Password.findOneAndUpdate({website:website},{password:password},function(err,doc)
-        {   
-            if(!err)
-            {
+    const website = req.body.website;
+    const password = req.body.passwd;
+    const rPasswd = req.body.rPasswd;
+    let id;
+    User.findOne({username:user},function(err,doc)
+    {
+        if(!err&&doc!==null)
+        {   //console.log(doc)
+             doc.info.every(elm=>{
+                if(elm.website===website)
+                {
+                    id=elm._id;
+                    // console.log(elm._id);
+                    // console.log(id);
+                    return false;
+                }
+                else{
+                    return true;
+                }
+             });
+        }
+    });
+    if (password === rPasswd) {
+        console.log(password);
+        Password.updateOne({ username:user,website:website }, { password: password }, function (err, doc) {
+            if (!err) {
                 console.log('password updated');
+                 console.log(typeof id);
+                 console.log(doc);
                 //console.log(doc);
             }
-            else(
+            else (
                 console.log(err)
             );
         });
-        User.updateOne({username:user,"info.website":website},{"info.$.password":password},function(err,doc){
-            if(!err)
-            {
+        User.updateOne({ username: user, "info.website": website }, { "info.$.password": password }, function (err, doc) {
+            if (!err) {
                 console.log("Password updated in user db");
-                
+
             }
         });
     }
-    else{
-        smallText2="Entered Passwords do not match.Pls type again";
+    else {
+        smallText2 = "Entered Passwords do not match.Pls type again";
         console.log("Website not found");
     }
 });
 
-app.post('/:customUrlName',function(req,res){
-    const user=req.params.customUrlName;
-    const website=req.body.website;
-    const newUsername=req.body.username;
-    const newPasswd=req.body.passwd;
-    const addPasswd=new Password({
-        website:website,
-        username:newUsername,
-        password:newPasswd
+app.post('/:customUrlName', function (req, res) {
+    const user = req.params.customUrlName;
+    const website = req.body.website;
+    const newUsername = req.body.username;
+    const newPasswd = req.body.passwd;
+    const addPasswd = new Password({
+        website: website,
+        username: newUsername,
+        password: newPasswd
 
     });
-   User.findOne({username:user},function(err,doc){
-    if(!err)
-    {
-        isWebsiteNew=doc.info.every((elm)=>{
-            if(elm.website===website){
-                console.log("Website already exits.Go to update page to change password");
-                smallText = `Website password already exits.Go to <a href="/update/${user}">update</a> page to change password`;
-                
-                return false;
-                
-            }
-        else{
-            return true;
-        }});
-        if(isWebsiteNew)
-        {
-            User.findOneAndUpdate({ username: user }, { $push: { info: addPasswd } }, function (err, docs) {
-                if (err) {
-                    console.log(err);
+    User.findOne({ username: user }, function (err, doc) {
+        if (!err) {
+            isWebsiteNew = doc.info.every((elm) => {
+                if (elm.website === website) {
+                    console.log("Website already exits.Go to update page to change password");
+                    smallText = `Website password already exits.Go to <a href="/update/${user}">update</a> page to change password`;
+
+                    return false;
+
                 }
                 else {
-                    console.log("entry added successfully");
-                    res.redirect("back");
+                    return true;
                 }
             });
-            addPasswd.save();
+            if (isWebsiteNew) {
+                User.findOneAndUpdate({ username: user }, { $push: { info: addPasswd } }, function (err, docs) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log("entry added successfully");
+                        res.redirect("back");
+                    }
+                });
+                addPasswd.save();
+            }
+            else {
+                res.redirect('back');
+            }
+        }
+    });
+
+});
+let list = [];
+app.get('/display/:user', function (req, res) {
+    const user = req.params.user;
+
+    User.findOne({ username: user }, function (err, doc) {
+        if (err) {
+            console.log(err);
+        }
+        else if (doc === null) {
+            console.log("User doesn't exist");
+            //res.render('show',{UserName:user,password:pass,list:list});
+        }
+        else {
+            if (doc.info !== null) {
+                list = doc.info;
+                console.log();
+            }
+            res.render('show', { UserName: user, password: pass, list: list });
+        }
+    });
+
+
+});
+app.post('/display/:user', function (req, res) {
+     const user = req.params.user;
+    const website=req.body.disp;
+   // console.log(req.params.url);
+    User.findOne({username:user},function(err,doc)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+        if(doc===null)
+        {
+            res.render('show', { UserName: user, password: pass, list: list });
+
         }
         else{
-            res.redirect('back');
+            passwd=doc.info.forEach((elm)=>{
+                if(elm.website===website)
+                {
+                    pass=`The password for ${website} is ${elm.password}`;
+                    
+
+                }
+            });
+
+            res.render('show', { UserName: user, password: pass, list: list });
         }
-    }
-   });
-    
+    });
+   
+
 });
 app.listen(3000, function () {
     console.log('Serving on port 3000...');
